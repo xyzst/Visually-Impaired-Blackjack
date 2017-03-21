@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="SUBTITLE TEXT FOR BETTING VIEW"
+        android:id="@+id/subtitleTextBetting"
+        />
+
+    <!-- TODO: implement betting view, betting will take place on this screen and then return to the field view -->
+    <!-- TODO: implement gesture controlled betting, possibly in increments of $5 or $10 -->
+</LinearLayout>
