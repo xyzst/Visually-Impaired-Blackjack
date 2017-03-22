@@ -30,7 +30,7 @@ public class Hand {
         perspectiveOf = name;
         hand = new ArrayList<>();
         addCard(card);
-        bet = new Bet(betValue);
+        bet = new Bet(betAmount);
         setState(State.PLAYING);
     }
 
@@ -53,13 +53,13 @@ public class Hand {
 
     // TODO: write documentation
     Card getCard(byte a) {
-        return hand.get(b);
+        return hand.get(a);
     }
 
     // TODO: write doc
     Card popCard(byte a) {
         Card card = hand.get(a);
-        hand.remove(b);
+        hand.remove(a);
         return card;
     }
 
