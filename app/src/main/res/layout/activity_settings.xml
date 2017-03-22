@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/subtitleTextSettings"
-        android:text="<SUBTITLE TEXT FOR ADJUSTING SETTINGS>" />
+        android:text="SUBTITLE TEXT FOR ADJUSTING SETTINGS" />
 
     <!-- TODO: view to adjust the various settings of the game/app -->
 

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class Hand {
     ArrayList<Card> hand;
 
+
     String perspectiveOf;
     State state;
     Bet bet;

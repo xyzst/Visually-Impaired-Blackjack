@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/subtitleTextBlackjack"
-        android:text="<SUBTITLE TEXT FOR MAIN GAME>" />
+        android:text="SUBTITLE TEXT FOR MAIN GAME" />
 
     <!-- TODO: dealer and player cards shown here, betting will take place in another screen -->
 </LinearLayout>
