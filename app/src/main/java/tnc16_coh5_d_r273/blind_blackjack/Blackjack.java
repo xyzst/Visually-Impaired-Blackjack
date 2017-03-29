@@ -1,5 +1,6 @@
 package tnc16_coh5_d_r273.blind_blackjack;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -30,5 +31,7 @@ public class Blackjack extends AppCompatActivity {
         isBetting = true;
 
         setContentView(R.layout.activity_blackjack);
+
+        Intent activity = new Intent(this, Dealer.class);
     }
 }
