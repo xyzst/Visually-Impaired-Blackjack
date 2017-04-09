@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Blackjack extends AppCompatActivity {
     private Settings settings;
@@ -32,6 +33,6 @@ public class Blackjack extends AppCompatActivity {
 
         setContentView(R.layout.activity_blackjack);
 
-        Intent activity = new Intent(this, Dealer.class);
+        // TODO
     }
 }
