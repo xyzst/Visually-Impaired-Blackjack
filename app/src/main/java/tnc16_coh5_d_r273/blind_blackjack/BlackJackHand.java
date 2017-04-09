@@ -1,140 +1,47 @@
 package tnc16_coh5_d_r273.blind_blackjack;
 
 /**
- * Created by Valar-Morghulis on 3/21/17.
+ * Created by Valar-Morghulis on 4/9/17.
  */
 
-public class BlackJackHand extends Hand {
-    private boolean isBusted = false,
-                    hasBlackjack = false,
-                    didDoubleDown = false;
+public class BlackjackHand extends Hand {
+    public int getBlackjackValue() {
+        // Returns the value of this hand for the
+        // game of Blackjack.
 
-    private byte hardValue,
-                 softValue;
+        int val;      // The value computed for the hand.
+        boolean ace;  // This will be set to true if the
+        //   hand contains an ace.
+        int cards;    // Number of cards in the hand.
 
-    // TODO: write documentation
-    BlackJackHand(String name) {
-        super(name);
-    }
+        val = 0;
+        ace = false;
+        cards = getCardCount();
 
-    // TODO: write documentation
-    BlackJackHand(String name, Card card, float betAmount) {
-        super(name, card, betAmount);
-    }
-
-    // TODO: write documentation
-    void update() {
-        hand.clear();
-        isBusted = false;
-        hasBlackjack = false;
-        didDoubleDown = false;
-        hasAce = false;
-
-        hardValue = 0;
-        softValue = 0;
-    }
-
-    //TODO write doc
-    void takeDoubleDown() {
-        didDoubleDown = true;
-    }
-
-    // TODO write doc
-    void ascertainIfBusted() {
-        if (hardValue > 21) {
-            isBusted = true;
-        }
-    }
-
-    // TODO write doc
-    void ascertainIfBlackjackObtained() {
-        if (hardValue == 21) {
-            hasBlackjack = true;
-        }
-    }
-
-    // TODO write doc
-    boolean isHandSplittable(boolean resplitAce) {
-        if (getCardCount() > 2) {
-            return false;
-        }
-
-        byte former = hand.get((byte)0).getValue();
-        byte latter = hand.get((byte)1).getValue();
-
-        if (former == 1 && latter == 1) {
-            if (resplitAce) {
-                return true;
+        for ( int i = 0;  i < cards;  i++ ) {
+            // Add the value of the i-th card in the hand.
+            Card card;    // The i-th card;
+            int cardVal;  // The blackjack value of the i-th card.
+            card = getCard(i);
+            cardVal = card.getValue();  // The normal value, 1 to 13.
+            if (cardVal > 10) {
+                cardVal = 10;   // For a Jack, Queen, or King.
             }
-            else {
-                return false;
+            if (cardVal == 1) {
+                ace = true;     // There is at least one ace.
             }
+            val = val + cardVal;
         }
 
-        return (former == latter);
-    }
+        // Now, val is the value of the hand, counting any ace as 1.
+        // If there is an ace, and if changing its value from 1 to
+        // 11 would leave the score less than or equal to 21,
+        // then do so by adding the extra 10 points to val.
 
-    // TODO write doc
-    void addCard(Card a) {
-        if (a != null) {
-            hand.add(a);
-            calculateBlackJackValue();
-        }
-    }
+        if ( ace == true  &&  val + 10 <= 21 )
+            val = val + 10;
 
-    //TODO write doc
-    private void calculateBlackJackValue() {
-        hardValue = 0;
+        return val;
 
-        boolean isAtLeastOneFaceCard = false;
-
-        for (Card card : hand) {
-            int valueOfCard = card.getValue();
-
-            if (valueOfCard > 10) {
-                isAtLeastOneFaceCard = true;
-                valueOfCard = 10;
-            }
-            else if (valueOfCard == 1) {
-                hasAce = true;
-            }
-
-            hardValue += valueOfCard;
-        }
-
-        if (hasAce && hardValue <= 11) {
-            softValue = (byte)(hardValue + 10);
-            if (isAtLeastOneFaceCard) {
-                hardValue = softValue;
-            }
-        }
-        else {
-            softValue = 0;
-        }
-    }
-
-    //TODO write doc
-    boolean getHasBlackjack() {
-        return hasBlackjack;
-    }
-
-    //TODO write doc
-    boolean getIsBusted() {
-        return isBusted;
-    }
-
-    // TODO write doc
-    boolean getDoubleDown() {
-        return didDoubleDown;
-    }
-
-    //TODO write doc
-    byte getHardBlackJackValue() {
-        return hardValue;
-    }
-
-    //TODO write doc
-    byte getSoftBlackJackValue() {
-        return softValue;
-    }
+    }  // end getBlackjackValue()
 }

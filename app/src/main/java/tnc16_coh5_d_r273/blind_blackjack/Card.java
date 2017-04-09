@@ -2,232 +2,86 @@ package tnc16_coh5_d_r273.blind_blackjack;
 
 /**
  * Created by Valar-Morghulis on 3/21/17.
+ *
+ * An object of class card represents one of the 52 cards in a
+ * standard deck of playing cards.  Each card has a suit and
+ * a value.
  */
 
 public class Card {
-    private final byte suit;
-    private final byte value;
-    private Integer cardID;
-    private boolean isFlippedUp;
 
-    // TODO write doc
-    Card(byte value, byte suit, boolean flip) {
-        this.value = value;
-        this.suit = suit;
-        isFlippedUp = flip;
-        setImage();
+    public final static int SPADES = 0,       // Codes for the 4 suits.
+            HEARTS = 1,
+            DIAMONDS = 2,
+            CLUBS = 3;
+
+    public final static int ACE = 1,          // Codes for the non-numeric cards.
+            JACK = 11,        //   Cards 2 through 10 have their
+            QUEEN = 12,       //   numerical values for their codes.
+            KING = 13;
+
+    private final int suit;   // The suit of this card, one of the constants
+    //    SPADES, HEARTS, DIAMONDS, CLUBS.
+
+    private final int value;  // The value of this card, from 1 to 11.
+
+    public Card(int theValue, int theSuit) {
+        // Construct a card with the specified value and suit.
+        // Value must be between 1 and 13.  Suit must be between
+        // 0 and 3.  If the parameters are outside these ranges,
+        // the constructed card object will be invalid.
+        value = theValue;
+        suit = theSuit;
     }
 
-    // TODO write doc
-    void flip() {
-        isFlippedUp = !isFlippedUp;
-        setImage();
-    }
-
-    // TODO write doc
-    // FIXME may need revision ???
-    // TODO could probably clean up the code
-    private void setImage() {
-        cardID = null;
-
-        if (isFlippedUp) {
-            switch (suit) {
-                case 0:
-                    switch (value) {
-                        case 1:
-                            cardID=R.drawable.s1;
-                            break;
-                        case 2:
-                            cardID=R.drawable.s2;
-                            break;
-                        case 3:
-                            cardID=R.drawable.s3;
-                            break;
-                        case 4:
-                            cardID=R.drawable.s4;
-                            break;
-                        case 5:
-                            cardID=R.drawable.s5;
-                            break;
-                        case 6:
-                            cardID=R.drawable.s6;
-                            break;
-                        case 7:
-                            cardID=R.drawable.s7;
-                            break;
-                        case 8:
-                            cardID=R.drawable.s8;
-                            break;
-                        case 9:
-                            cardID=R.drawable.s9;
-                            break;
-                        case 10:
-                            cardID=R.drawable.s10;
-                            break;
-                        case 11:
-                            cardID=R.drawable.s11;
-                            break;
-                        case 12:
-                            cardID=R.drawable.s12;
-                            break;
-                        case 13:
-                            cardID=R.drawable.s13;
-                            break;
-                    }
-                break;
-                case 1:
-                    switch (value) {
-                        case 1:
-                            cardID=R.drawable.h1;
-                            break;
-                        case 2:
-                            cardID=R.drawable.h2;
-                            break;
-                        case 3:
-                            cardID=R.drawable.h3;
-                            break;
-                        case 4:
-                            cardID=R.drawable.h4;
-                            break;
-                        case 5:
-                            cardID=R.drawable.h5;
-                            break;
-                        case 6:
-                            cardID=R.drawable.h6;
-                            break;
-                        case 7:
-                            cardID=R.drawable.h7;
-                            break;
-                        case 8:
-                            cardID=R.drawable.h8;
-                            break;
-                        case 9:
-                            cardID=R.drawable.h9;
-                            break;
-                        case 10:
-                            cardID=R.drawable.h10;
-                            break;
-                        case 11:
-                            cardID=R.drawable.h11;
-                            break;
-                        case 12:
-                            cardID=R.drawable.h12;
-                            break;
-                        case 13:
-                            cardID=R.drawable.h13;
-                            break;
-                    }
-                break;
-                case 2:
-                    switch (value) {
-                        case 1:
-                            cardID=R.drawable.d1;
-                            break;
-                        case 2:
-                            cardID=R.drawable.d2;
-                            break;
-                        case 3:
-                            cardID=R.drawable.d3;
-                            break;
-                        case 4:
-                            cardID=R.drawable.d4;
-                            break;
-                        case 5:
-                            cardID=R.drawable.d5;
-                            break;
-                        case 6:
-                            cardID=R.drawable.d6;
-                            break;
-                        case 7:
-                            cardID=R.drawable.d7;
-                            break;
-                        case 8:
-                            cardID=R.drawable.d8;
-                            break;
-                        case 9:
-                            cardID=R.drawable.d9;
-                            break;
-                        case 10:
-                            cardID=R.drawable.d10;
-                            break;
-                        case 11:
-                            cardID=R.drawable.d11;
-                            break;
-                        case 12:
-                            cardID=R.drawable.d12;
-                            break;
-                        case 13:
-                            cardID=R.drawable.d13;
-                            break;
-                    }
-                break;
-                case 3:
-                    switch (value) {
-                        case 1:
-                            cardID=R.drawable.c1;
-                            break;
-                        case 2:
-                            cardID=R.drawable.c2;
-                            break;
-                        case 3:
-                            cardID=R.drawable.c3;
-                            break;
-                        case 4:
-                            cardID=R.drawable.c4;
-                            break;
-                        case 5:
-                            cardID=R.drawable.c5;
-                            break;
-                        case 6:
-                            cardID=R.drawable.c6;
-                            break;
-                        case 7:
-                            cardID=R.drawable.c7;
-                            break;
-                        case 8:
-                            cardID=R.drawable.c8;
-                            break;
-                        case 9:
-                            cardID=R.drawable.c9;
-                            break;
-                        case 10:
-                            cardID=R.drawable.c10;
-                            break;
-                        case 11:
-                            cardID=R.drawable.c11;
-                            break;
-                        case 12:
-                            cardID=R.drawable.c12;
-                            break;
-                        case 13:
-                            cardID=R.drawable.c13;
-                            break;
-                    }
-                break;
-            }
-        }
-        else {
-            cardID = R.drawable.back;
-        }
-    }
-
-    //TODO write doc
-    Integer getImageFromCardID() {
-        return cardID;
-    }
-
-    // TODO write doc
-    byte getSuit() {
+    public int getSuit() {
+        // Return the int that codes for this card's suit.
         return suit;
     }
 
-    // TODO write doc
-    byte getValue() {
+    public int getValue() {
+        // Return the int that codes for this card's value.
         return value;
     }
 
-    // TODO write doc
-    boolean getIsFlippedUp() {
-        return isFlippedUp;
+    public String getSuitAsString() {
+        // Return a String representing the card's suit.
+        // (If the card's suit is invalid, "??" is returned.)
+        switch ( suit ) {
+            case SPADES:   return "Spades";
+            case HEARTS:   return "Hearts";
+            case DIAMONDS: return "Diamonds";
+            case CLUBS:    return "Clubs";
+            default:       return "??";
+        }
     }
-}
+
+    public String getValueAsString() {
+        // Return a String representing the card's value.
+        // If the card's value is invalid, "??" is returned.
+        switch ( value ) {
+            case 1:   return "Ace";
+            case 2:   return "2";
+            case 3:   return "3";
+            case 4:   return "4";
+            case 5:   return "5";
+            case 6:   return "6";
+            case 7:   return "7";
+            case 8:   return "8";
+            case 9:   return "9";
+            case 10:  return "10";
+            case 11:  return "Jack";
+            case 12:  return "Queen";
+            case 13:  return "King";
+            default:  return "??";
+        }
+    }
+
+    public String toString() {
+        // Return a String representation of this card, such as
+        // "10 of Hearts" or "Queen of Spades".
+        return getValueAsString() + " of " + getSuitAsString();
+    }
+
+
+} // end class Card

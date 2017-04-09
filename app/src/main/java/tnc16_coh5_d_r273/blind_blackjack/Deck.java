@@ -1,84 +1,53 @@
 package tnc16_coh5_d_r273.blind_blackjack;
 
-import java.util.ArrayList;
-
 /**
- * Created by Valar-Morghulis on 3/21/17.
+ *   An object of type Deck represents an ordinary deck of 52 playing cards.
+ *   The deck can be shuffled, and cards can be dealt from the deck.
  */
 
 public class Deck {
-    private ArrayList<Card> deck;
-    static int numberOfDecks;
-    static int shuffleTimes;
 
-    //TODO write doc
-    Deck(byte decks, byte burn, byte times) {
-        deck = new ArrayList<>();
-        numberOfDecks = decks;
-        shuffleTimes = times;
+    private Card[] deck;   // An array of 52 Cards, representing the deck.
+    private int cardsUsed; // How many cards have been dealt from the deck.
 
-        fillDeck();
-        shuffleDeck();
-        burn(burn);
-    }
-
-    //TODO write doc
-    private void burn(byte a) {
-        for (byte counter = 0; counter < a; ++counter) {
-            deck.remove(0);
-        }
-    }
-
-    //TODO write doc
-    Card drawCard() {
-        Card card = deck.get(0);
-        deck.remove(0);
-        return card;
-    }
-
-    // TODO write doc
-    private Card popCard(short s) {
-        Card card = deck.get(s);
-        deck.remove(s);
-        return card;
-    }
-
-    //TODO write doc
-    void fillDeck() {
-        // Fill the deck with 52 Cards, 4 different suits & 13 different cards in each suit.
-
-        for (byte decks = 0; decks < numberOfDecks; ++decks) {
-            for (byte suit = 0; suit < 4; ++suit) {
-                for (byte value = 1; value < 14; ++value) {
-                    deck.add(new Card(value, suit, true));
-                }
+    public Deck() {
+        // Create an unshuffled deck of cards.
+        deck = new Card[52];
+        int cardCt = 0; // How many cards have been created so far.
+        for ( int suit = 0; suit <= 3; suit++ ) {
+            for ( int value = 1; value <= 13; value++ ) {
+                deck[cardCt] = new Card(value,suit);
+                cardCt++;
             }
         }
+        cardsUsed = 0;
     }
 
-    //TODO write doc
-    void shuffleDeck() {
-        for (byte t = 0; t < shuffleTimes; ++t ) {
-            for (short i = (short)(deck.size()-1); i > 0; --i ) {
-                short rand = (short)(Math.random()*i); // Fetch a random Card in the range 0-i
-
-                // Take care of case where indexes rand and i represent the same card.
-                while (rand == i) {
-                    rand = (short)(Math.random()*i);
-                }
-
-                Card iCard = popCard(i); // Pop the OLD Card.
-                Card randCard = popCard(rand); //Pop the NEW random card.
-
-                //Put back them in swapped places.
-                deck.add(i-1,randCard);
-                deck.add(rand,iCard);
-            }
+    public void shuffle() {
+        // Put all the used cards back into the deck, and shuffle it into
+        // a random order.
+        for ( int i = 51; i > 0; i-- ) {
+            int rand = (int)(Math.random()*(i+1));
+            Card temp = deck[i];
+            deck[i] = deck[rand];
+            deck[rand] = temp;
         }
+        cardsUsed = 0;
     }
 
-    //TODO write doc
-    short cardsLeft() {
-        return (short)deck.size();
+    public int cardsLeft() {
+        // As cards are dealt from the deck, the number of cards left
+        // decreases.  This function returns the number of cards that
+        // are still left in the deck.
+        return 52 - cardsUsed;
     }
-}
+
+    public Card dealCard() {
+        // Deals one card from the deck and returns it.
+        if (cardsUsed == 52)
+            shuffle();
+        cardsUsed++;
+        return deck[cardsUsed - 1];
+    }
+
+} // end class Deck

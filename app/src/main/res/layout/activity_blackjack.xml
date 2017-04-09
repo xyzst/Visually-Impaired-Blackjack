@@ -19,15 +19,17 @@
         android:text="SUBTITLE TEXT, introduction here?"
         android:id="@+id/subtitleTextMain" />
 
+
     <Button
         android:id="@+id/loadTutorial"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Load Tutorial"
         android:layout_below="@+id/subtitleTextMain"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="54dp" />
+        android:layout_marginTop="54dp"
+        android:onClick="tutorial"
+        android:text="Load Tutorial" />
 
     <Button
         android:id="@+id/playBlackjack"
@@ -37,6 +39,7 @@
         android:layout_below="@+id/loadTutorial"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="54dp" />
+        android:layout_marginTop="54dp"
+        android:onClick="play"/>
 
 </RelativeLayout>
