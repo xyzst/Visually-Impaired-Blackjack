@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 
 public class Play extends AppCompatActivity {
     public static final String PREFS_NAME = "SharedBlackjackVars";
+    private static final String TAG = "PlayActivity";
 
     int bet;
     int dealerScore;
@@ -209,12 +211,12 @@ public class Play extends AppCompatActivity {
         buttonStand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: continue logic here
+                userHasPressedStandContinueToDealCardsToDealer();
             }
         });
     }
 
-    public void userHasBusted() {
+    private void userHasBusted() {
         Intent busted = new Intent(this, PlaceWagerActivity.class);
         SharedPreferences pref = getApplicationContext().getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor edit = pref.edit();
@@ -227,4 +229,41 @@ public class Play extends AppCompatActivity {
         startActivity(busted);
     }
 
+    private void userHasPressedStandContinueToDealCardsToDealer() {
+        while (dealerHand.getBlackjackValue() <= 16) {
+            Card newCard = deck.dealCard();
+            dealerHand.addCard(newCard);
+            dealerScore = dealerHand.getBlackjackValue();
+            dealerScoreTextView.setText("Dealer @ ".concat(Integer.toString(dealerScore)));
+            //TODO: implement delay
+            //TODO: implement imageview updates for dealer here
+
+            Log.i(TAG, "Dealer Score == "+dealerScore+" User Score == " +userScore);
+
+            if (dealerScore > 21) {
+                Intent win = new Intent(this, PlaceWagerActivity.class);
+                win.putExtra("RESULT", money + bet);
+                //TODO: implement delay
+                startActivity(win);
+            }
+        }
+
+        if (dealerScore == userScore) {
+            Intent tie = new Intent(this, PlaceWagerActivity.class);
+            tie.putExtra("RESULT", money);
+            // TODO implement delay
+            startActivity(tie);
+        } else if ((dealerScore <= 21) && dealerScore > userScore) {
+            Log.i(TAG, "Dealer Score == " + dealerScore + " User Score == " + userScore);
+            Intent loss = new Intent(this, PlaceWagerActivity.class);
+            loss.putExtra("RESULT", money - bet);
+            // TODO implement delay
+            startActivity(loss);
+        } else {
+            Intent win = new Intent(this, PlaceWagerActivity.class);
+            win.putExtra("RESULT", money + bet);
+            // TODO implement delay
+            startActivity(win);
+        }
+    }
 }
