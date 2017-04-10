@@ -148,8 +148,8 @@ public class Play extends AppCompatActivity {
         userHand.addCard(deck.dealCard());
         dealerHand.addCard(deck.dealCard());
         userHand.addCard(deck.dealCard());
-        dealerScore = /*dealerHand.getBlackjackValue(); TODO: REMOVE THIS COMMENT BLC*/ 21;
-        userScore = /*userHand.getBlackjackValue();TODO: REMOVE THIS COMMENT BLC*/  20;
+        dealerScore = dealerHand.getBlackjackValue();
+        userScore = userHand.getBlackjackValue();
         dealerScoreTextView.setText("Dealer @ ".concat(Integer.toString(dealerScore)));
         userScoreTextView.setText("You @ ".concat(Integer.toString(userScore)));
 
@@ -163,6 +163,7 @@ public class Play extends AppCompatActivity {
             Intent win = new Intent(this, PlaceWagerActivity.class);
             win.putExtra("RESULT", money + (bet * 1.5));
             startActivity(win);
+            //TODO: implement a delay to allow
         }
         else if (dealerScore == 21 && userScore != 21) {
             Intent lose = new Intent(this, PlaceWagerActivity.class);
@@ -171,6 +172,7 @@ public class Play extends AppCompatActivity {
                 edit.putBoolean("hasReachedZeroFunds", true);
                 edit.apply();
             }
+            //  TODO: implement a delay
             startActivity(lose);
         }
     }
