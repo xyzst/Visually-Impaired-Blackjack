@@ -33,7 +33,7 @@ public class Play extends AppCompatActivity {
 //    }
 //
 //    public void userBetting() {
-//        // if money == 0, then end session, reset money value, go back to activity_blackjack
+//        // if money == 0, then end session, reset money value, go back to activity_main
 //        // set view to betting
 //        // have buttons/gestures to set bet
 //        // ALWAYS if(bet > money), should not be able to get bet greater than current money
