@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +26,9 @@ public class Play extends AppCompatActivity {
     TextView dealerScoreTextView;
     TextView userScoreTextView;
 
+    Button buttonHit;
+    Button buttonStand;
+
     ArrayList<ImageView> dealerCardsImageViews;
     ArrayList<ImageView> userCardsImageViews;
 
@@ -34,6 +39,9 @@ public class Play extends AppCompatActivity {
 
         dealerScoreTextView = (TextView) findViewById(R.id.textViewDealerScore);
         userScoreTextView = (TextView) findViewById(R.id.textViewUserScore);
+        buttonHit = (Button) findViewById(R.id.buttonHit);
+        buttonStand = (Button) findViewById(R.id.buttonStand);
+
         deck = new Deck();
         userHand = new BlackjackHand();
         dealerHand = new BlackjackHand();
@@ -176,6 +184,47 @@ public class Play extends AppCompatActivity {
             startActivity(lose);
         }
 
-        //TODO continue here ...
+        /*  If neither player has Blackjack, play the game.  First the user
+              gets a chance to draw cards (i.e., to "Hit").  The while loop ends
+              when the user chooses to "Stand".  If the user goes over 21,
+              the user loses immediately.
+
+              At this point, you do not need a loop, just draw buttons for hit/stand
+              keep track
+          */
+
+        buttonHit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                userHand.addCard(deck.dealCard());
+                userScore = userHand.getBlackjackValue();
+                userScoreTextView.setText("You @ ".concat(Integer.toString(userScore)));
+                //Update ImageViewer..
+                if ((userScore) > 21) {
+                    userHasBusted();
+                }
+            }
+        });
+
+        buttonStand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO: continue logic here
+            }
+        });
     }
+
+    public void userHasBusted() {
+        Intent busted = new Intent(this, PlaceWagerActivity.class);
+        SharedPreferences pref = getApplicationContext().getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor edit = pref.edit();
+        busted.putExtra("RESULT", money - bet);
+        if ((money - bet) == 0) {
+            edit.putBoolean("hasReachedZeroFunds", true);
+            edit.apply();
+        }
+        // TODO: implement delay
+        startActivity(busted);
+    }
+
 }

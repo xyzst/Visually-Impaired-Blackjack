@@ -34,12 +34,14 @@ public class PlaceWagerActivity extends AppCompatActivity {
                 money = 100;
                 edit.putBoolean("hasReachedZeroFunds", false);
                 edit.apply();
-            } else {
+            }
+            else {
                 money = bundle.getDouble("RESULT");
             }
         }
         catch (NullPointerException x) {
             x.printStackTrace();
+            money = 100;
         }
 
         seekBar = (SeekBar) findViewById(R.id.seekBarBetAmount);
