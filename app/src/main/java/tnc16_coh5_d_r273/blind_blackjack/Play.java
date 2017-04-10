@@ -153,7 +153,7 @@ public class Play extends AppCompatActivity {
         dealerScoreTextView.setText("Dealer @ ".concat(Integer.toString(dealerScore)));
         userScoreTextView.setText("You @ ".concat(Integer.toString(userScore)));
 
-        if (dealerScore == 21 && userScore == 21) { // TODO: passed test
+        if (dealerScore == 21 && userScore == 21) {
             Intent tie = new Intent(this, PlaceWagerActivity.class);
             tie.putExtra("RESULT", money);
             startActivity(tie);
@@ -175,5 +175,7 @@ public class Play extends AppCompatActivity {
             //  TODO: implement a delay
             startActivity(lose);
         }
+
+        //TODO continue here ...
     }
 }
