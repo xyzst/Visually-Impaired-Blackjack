@@ -1,6 +1,5 @@
 package tnc16_coh5_d_r273.blind_blackjack;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

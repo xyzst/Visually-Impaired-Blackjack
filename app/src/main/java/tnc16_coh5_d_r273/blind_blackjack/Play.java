@@ -1,17 +1,44 @@
 package tnc16_coh5_d_r273.blind_blackjack;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class Play extends AppCompatActivity {
+    public static final String PREFS_NAME = "MySharedBlackjackVars";
+
+    int funds = 100;
+    int bet;
+
+    Deck deck;
+    BlackjackHand userHand;
+    BlackjackHand dealerHand;
+
+    TextView dealerScore;
+    TextView userScore;
+
+    ArrayList<ImageView> dealerCardsImageViews;
+    ArrayList<ImageView> userCardsImageViews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
 
+        dealerScore = (TextView) findViewById(R.id.textViewUserScore);
+        userScore = (TextView) findViewById(R.id.textViewUserScore);
+        deck = new Deck();
+        userHand = new BlackjackHand();
+        dealerHand = new BlackjackHand();
+        Bundle bundle = getIntent().getExtras();
+        bet = bundle.getInt("BET_AMOUNT"); // passed from PlaceWagerActivity ..
+
+        shuffleUpAndDeal();
 
 //    public void play(View view) {
 //        // set new view to game view/activity_field
@@ -63,20 +90,7 @@ public class Play extends AppCompatActivity {
 //        // update view with cards^^
 //
 //        // check if either dealer and/or user has blackjack
-//        if (dealerHand.getBlackjackValue() == 21 && userHand.getBlackjackValue() == 21) {
-//            //push, start over
-//            //money value does not change
-//            // call betting()
-//
-//        }
-//        else if (dealerHand.getBlackjackValue() != 21 && userHand.getBlackjackValue() == 21) {
-//            // user wins, money = bet * 1.5
-//            // start over, call betting()
-//        }
-//        else if (dealerHand.getBlackjackValue() == 21 && userHand.getBlackjackValue() != 21) {
-//            // dealer wins, money = money - bet
-//            // start over, call betting()
-//        }
+
 //
 //        // TODO implement ability to split cards
 //
@@ -121,5 +135,27 @@ public class Play extends AppCompatActivity {
 //            // display toast notif
 //            // call userBetting/switch activ
 //        }
+    }
+
+    public void shuffleUpAndDeal() {
+        deck.shuffle();
+        dealerHand.addCard(deck.dealCard());
+        userHand.addCard(deck.dealCard());
+        dealerHand.addCard(deck.dealCard());
+        userHand.addCard(deck.dealCard());
+
+        if (dealerHand.getBlackjackValue() == 21 && userHand.getBlackjackValue() == 21) {
+            //push, start over
+            //money value does not change
+            // call betting()
+        }
+        else if (dealerHand.getBlackjackValue() != 21 && userHand.getBlackjackValue() == 21) {
+            // user wins, money = bet * 1.5
+            // start over, call betting()
+        }
+        else if (dealerHand.getBlackjackValue() == 21 && userHand.getBlackjackValue() != 21) {
+            // dealer wins, money = money - bet
+            // start over, call betting()
+        }
     }
 }

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="tnc16_coh5_d_r273.blind_blackjack.PlaceWagerActivity">
+
+    <SeekBar
+        android:id="@+id/seekBarBetAmount"
+        android:layout_width="336dp"
+        android:layout_height="82dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:max="100"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonConfirmBet" />
+
+    <TextView
+        android:id="@+id/textViewPlaceBet"
+        android:layout_width="342dp"
+        android:layout_height="53dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="16dp"
+        android:text="PLACE BET ACTIVITY"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewAvailableFunds"
+        android:layout_width="183dp"
+        android:layout_height="62dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:text="DISPLAY USER CASH HERE"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPlaceBet" />
+
+    <Button
+        android:id="@+id/buttonConfirmBet"
+        android:layout_width="335dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="16dp"
+        android:text="CONFIRM"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:onClick="confirmWager"/>
+</android.support.constraint.ConstraintLayout>
