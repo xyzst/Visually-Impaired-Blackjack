@@ -38,7 +38,7 @@ public class BlackjackHand extends Hand {
         // 11 would leave the score less than or equal to 21,
         // then do so by adding the extra 10 points to val.
 
-        if ( ace == true  &&  val + 10 <= 21 )
+        if ( ace  &&  val + 10 <= 21 )
             val = val + 10;
 
         return val;
