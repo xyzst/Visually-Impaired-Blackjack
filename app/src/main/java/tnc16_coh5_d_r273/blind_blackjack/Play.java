@@ -10,17 +10,19 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class Play extends AppCompatActivity {
-    public static final String PREFS_NAME = "MySharedBlackjackVars";
+    public static final String PREFS_NAME = "SharedBlackjackVars";
 
-    int funds = 100;
     int bet;
+    int dealerScore;
+    int userScore;
+    double money;
 
     Deck deck;
     BlackjackHand userHand;
     BlackjackHand dealerHand;
 
-    TextView dealerScore;
-    TextView userScore;
+    TextView dealerScoreTextView;
+    TextView userScoreTextView;
 
     ArrayList<ImageView> dealerCardsImageViews;
     ArrayList<ImageView> userCardsImageViews;
@@ -30,13 +32,14 @@ public class Play extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
 
-        dealerScore = (TextView) findViewById(R.id.textViewUserScore);
-        userScore = (TextView) findViewById(R.id.textViewUserScore);
+        dealerScoreTextView = (TextView) findViewById(R.id.textViewDealerScore);
+        userScoreTextView = (TextView) findViewById(R.id.textViewUserScore);
         deck = new Deck();
         userHand = new BlackjackHand();
         dealerHand = new BlackjackHand();
         Bundle bundle = getIntent().getExtras();
         bet = bundle.getInt("BET_AMOUNT"); // passed from PlaceWagerActivity ..
+        money = bundle.getDouble("USER_MONEY");
 
         shuffleUpAndDeal();
 
@@ -135,27 +138,40 @@ public class Play extends AppCompatActivity {
 //            // display toast notif
 //            // call userBetting/switch activ
 //        }
-    }
+}
 
     public void shuffleUpAndDeal() {
+        SharedPreferences pref = getApplicationContext().getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor edit = pref.edit();
         deck.shuffle();
         dealerHand.addCard(deck.dealCard());
         userHand.addCard(deck.dealCard());
         dealerHand.addCard(deck.dealCard());
         userHand.addCard(deck.dealCard());
+        dealerScore = /*dealerHand.getBlackjackValue(); TODO: REMOVE THIS COMMENT BLC*/ 21;
+        userScore = /*userHand.getBlackjackValue();TODO: REMOVE THIS COMMENT BLC*/  20;
+        dealerScoreTextView.setText("Dealer @ ".concat(Integer.toString(dealerScore)));
+        userScoreTextView.setText("You @ ".concat(Integer.toString(userScore)));
 
-        if (dealerHand.getBlackjackValue() == 21 && userHand.getBlackjackValue() == 21) {
-            //push, start over
-            //money value does not change
-            // call betting()
+        if (dealerScore == 21 && userScore == 21) { // TODO: passed test
+            Intent tie = new Intent(this, PlaceWagerActivity.class);
+            tie.putExtra("RESULT", money);
+            startActivity(tie);
+            // TODO: implement a delay to allow for a person to confirm
         }
-        else if (dealerHand.getBlackjackValue() != 21 && userHand.getBlackjackValue() == 21) {
-            // user wins, money = bet * 1.5
-            // start over, call betting()
+        else if (dealerScore != 21 && userScore == 21) {
+            Intent win = new Intent(this, PlaceWagerActivity.class);
+            win.putExtra("RESULT", money + (bet * 1.5));
+            startActivity(win);
         }
-        else if (dealerHand.getBlackjackValue() == 21 && userHand.getBlackjackValue() != 21) {
-            // dealer wins, money = money - bet
-            // start over, call betting()
+        else if (dealerScore == 21 && userScore != 21) {
+            Intent lose = new Intent(this, PlaceWagerActivity.class);
+            lose.putExtra("RESULT", money - bet);
+            if ((money - bet) == 0) {
+                edit.putBoolean("hasReachedZeroFunds", true);
+                edit.apply();
+            }
+            startActivity(lose);
         }
     }
 }
