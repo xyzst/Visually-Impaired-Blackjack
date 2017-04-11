@@ -113,8 +113,8 @@ public class Play extends AppCompatActivity {
         deck.shuffle();
         dealerHand.addCard(deck.dealCard());
         userHand.addCard(deck.dealCard());
-        dealerHand.addCard(deck.dealCard());
         userHand.addCard(deck.dealCard());
+        dealerHand.addCard(deck.dealCard());
 
         displayAppropriateDealerImageViewCard("face_down.png", dealerCardNumber++);
         displayAppropriateUserImageViewCard(userHand.getCard(userCardNumber).toString()+".png",
