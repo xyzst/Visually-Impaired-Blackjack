@@ -18,7 +18,7 @@ public class PlaceWagerActivity extends AppCompatActivity {
     private SeekBar seekBar;
     private Button buttonBetAmount;
     private TextView textViewDisplayFunds;
-    private Integer betAmount;
+    private Integer betAmount = 5;
     private double money;
 
 
@@ -49,6 +49,7 @@ public class PlaceWagerActivity extends AppCompatActivity {
         buttonBetAmount = (Button) findViewById(R.id.buttonConfirmBet);
         textViewDisplayFunds = (TextView) findViewById(R.id.textViewAvailableFunds);
         textViewDisplayFunds.setText("AVAILABLE FUNDS: ".concat(Double.toString(money)));
+        buttonBetAmount.setText("CONFIRM ($5)");
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             String disp;
