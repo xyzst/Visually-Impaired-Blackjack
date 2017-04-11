@@ -104,7 +104,7 @@ public class Play extends AppCompatActivity {
             x.printStackTrace();
         }
     }
-// test kkk kkk
+
     public void shuffleUpAndDeal() {
         final SharedPreferences pref = getApplicationContext().getSharedPreferences(PREFS_NAME,
                 MODE_PRIVATE);
