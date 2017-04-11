@@ -21,7 +21,6 @@ public class PlaceWagerActivity extends AppCompatActivity {
     private Integer betAmount = 5;
     private double money;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
