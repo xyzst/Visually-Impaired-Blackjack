@@ -20,13 +20,13 @@ public class Play extends AppCompatActivity {
     public static final String PREFS_NAME = "SharedBlackjackVars";
     private static final String TAG = "PlayActivity";
 
-    int SECS_DELAY = 5000;
-    int bet;
-    int dealerScore;
-    int userScore;
-    int dealerCardNumber;
-    int userCardNumber;
-    double money;
+    private final int SECS_DELAY = 5000;
+    private int bet;
+    private int dealerScore;
+    private int userScore;
+    private int dealerCardNumber;
+    private int userCardNumber;
+    private double money;
 
     Deck deck;
     BlackjackHand userHand;
@@ -105,8 +105,8 @@ public class Play extends AppCompatActivity {
     }
 
     public void shuffleUpAndDeal() {
-        SharedPreferences pref = getApplicationContext().getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        SharedPreferences.Editor edit = pref.edit();
+        final SharedPreferences pref = getApplicationContext().getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        final SharedPreferences.Editor edit = pref.edit();
 
         deck.shuffle();
         dealerHand.addCard(deck.dealCard());
@@ -128,26 +128,41 @@ public class Play extends AppCompatActivity {
         userScoreTextView.setText("You @ ".concat(Integer.toString(userScore)));
 
         if (dealerScore == 21 && userScore == 21) {
-            Intent tie = new Intent(this, PlaceWagerActivity.class);
-            tie.putExtra("RESULT", money);
-            startActivity(tie);
-            // TODO: implement a delay to allow for a person to confirm
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent tie = new Intent(Play.this, PlaceWagerActivity.class);
+                    tie.putExtra("RESULT", money);
+                    startActivity(tie);
+                    // TODO: implement notification/feedback
+                }
+            }, SECS_DELAY);
         }
         else if (dealerScore != 21 && userScore == 21) {
-            Intent win = new Intent(this, PlaceWagerActivity.class);
-            win.putExtra("RESULT", money + (bet * 1.5));
-            startActivity(win);
-            //TODO: implement a delay to allow
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent win = new Intent(Play.this, PlaceWagerActivity.class);
+                    win.putExtra("RESULT", money + (bet * 1.5));
+                    startActivity(win);
+                    //TODO: implement feedback/notif
+                }
+            }, SECS_DELAY);
         }
         else if (dealerScore == 21) {
-            Intent lose = new Intent(this, PlaceWagerActivity.class);
-            lose.putExtra("RESULT", money - bet);
-            if ((money - bet) == 0) {
-                edit.putBoolean("hasReachedZeroFunds", true);
-                edit.apply();
-            }
-            //  TODO: implement a delay
-            startActivity(lose);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent lose = new Intent(Play.this, PlaceWagerActivity.class);
+                    lose.putExtra("RESULT", money - bet);
+                    if ((money - bet) == 0) {
+                        edit.putBoolean("hasReachedZeroFunds", true);
+                        edit.apply();
+                    }
+                    //  TODO: implement feedback notification/audio feedback
+                    startActivity(lose);
+                }
+            }, SECS_DELAY);
         }
 
         /*  If neither player has Blackjack, play the game. */
@@ -175,16 +190,21 @@ public class Play extends AppCompatActivity {
     }
 
     private void userHasBusted() {
-        Intent busted = new Intent(this, PlaceWagerActivity.class);
-        SharedPreferences pref = getApplicationContext().getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        SharedPreferences.Editor edit = pref.edit();
-        busted.putExtra("RESULT", money - bet);
-        if ((money - bet) == 0) {
-            edit.putBoolean("hasReachedZeroFunds", true);
-            edit.apply();
-        }
-        // TODO: implement delay
-        startActivity(busted);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                SharedPreferences pref = getApplicationContext().getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+                SharedPreferences.Editor edit = pref.edit();
+                Intent busted = new Intent(Play.this, PlaceWagerActivity.class);
+                busted.putExtra("RESULT", money - bet);
+                if ((money - bet) == 0) {
+                    edit.putBoolean("hasReachedZeroFunds", true);
+                    edit.apply();
+                }
+                startActivity(busted);
+                // TODO: implement audio/notification feedback
+            }
+        }, SECS_DELAY);
     }
 
     private void userHasPressedStandContinueToDealCardsToDealer() {
@@ -195,42 +215,58 @@ public class Play extends AppCompatActivity {
             dealerHand.addCard(newCard);
             dealerScore = dealerHand.getBlackjackValue();
             dealerScoreTextView.setText("Dealer @ ".concat(Integer.toString(dealerScore)));
-            //TODO: implement delay
-            displayAppropriateDealerImageViewCard(dealerHand.getCard(dealerCardNumber).toString()+".png",
-                    dealerCardNumber++); // FIXME: May access out of bounds if number of cards exceeds 10, fix with dynamic ImageView on XML, use RecyclerView??
-            Log.i(TAG, "Dealer Score == "+dealerScore+" User Score == " +userScore);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    displayAppropriateDealerImageViewCard(dealerHand.getCard(dealerCardNumber).toString()+".png",
+                            dealerCardNumber++); // FIXME: May access out of bounds if number of cards exceeds 10, fix with dynamic ImageView on XML, use RecyclerView??
+                }
+            }, (SECS_DELAY / 5)); // 1 second delay between cards
 
             if (dealerScore > 21) {
-                Intent win = new Intent(this, PlaceWagerActivity.class);
-                win.putExtra("RESULT", money + bet);
-                //TODO: implement delay
-                startActivity(win);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent win = new Intent(Play.this, PlaceWagerActivity.class);
+                        win.putExtra("RESULT", money + bet);
+                        startActivity(win);
+                        // TODO implement notification
+                    }
+                }, SECS_DELAY);
             }
         }
 
         if (dealerScore == userScore) {
-            new Handler().postDelayed(new Runnable() {
+             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     Intent tie = new Intent(Play.this, PlaceWagerActivity.class);
                     tie.putExtra("RESULT", money);
-                    // TODO implement delay
                     startActivity(tie);
+                    // TODO: implement notification/sound feedback
                 }
             }, SECS_DELAY);
         } else if ((dealerScore <= 21) && dealerScore > userScore) {
-
-            Log.i(TAG, "Dealer Score == " + dealerScore + " User Score == " + userScore);
-            Intent loss = new Intent(this, PlaceWagerActivity.class);
-            loss.putExtra("RESULT", money - bet);
-            // TODO implement delay
-            startActivity(loss);
-            
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Log.i(TAG, "Dealer Score == " + dealerScore + " User Score == " + userScore);
+                    Intent loss = new Intent(Play.this, PlaceWagerActivity.class);
+                    loss.putExtra("RESULT", money - bet);
+                    startActivity(loss);
+                    // TODO: implement notification/sound feedback
+                }
+            }, SECS_DELAY);
         } else {
-            Intent win = new Intent(this, PlaceWagerActivity.class);
-            win.putExtra("RESULT", money + bet);
-            // TODO implement delay
-            startActivity(win);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent win = new Intent(Play.this, PlaceWagerActivity.class);
+                    win.putExtra("RESULT", money + bet);
+                    startActivity(win);
+                    // TODO: implement notification/sound feedback
+                }
+            }, SECS_DELAY);
         }
     }
 }
