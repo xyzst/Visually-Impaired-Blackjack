@@ -42,16 +42,32 @@ public class MainActivity extends Activity implements
         return true;
     }
 
+    /**
+     * Upon notification of the onFling gesture (flick up gesture), the application will create
+     * a new Intent to initiate the Tutorial activity
+     * @param event1
+     * @param event2
+     * @param velocityX
+     * @param velocityY
+     * @return
+     */
     @Override
     public boolean onFling(MotionEvent event1, MotionEvent event2,
                            float velocityX, float velocityY) {
-        Log.d(DEBUG_TAG, "onFling: " + event1.toString()+event2.toString());
+        Intent tutorial = new Intent(this, Tutorial.class);
+        startActivity(tutorial);
         return true;
     }
 
+    /**
+     * Upon notification of the onLongPress gesture, the application will create a new Intent
+     * to initiate the Play activity
+     * @param event
+     */
     @Override
     public void onLongPress(MotionEvent event) {
-        Log.d(DEBUG_TAG, "onLongPress: " + event.toString());
+        Intent playBlackjack = new Intent(this, PlaceWagerActivity.class);
+        startActivity(playBlackjack);
     }
 
     @Override
