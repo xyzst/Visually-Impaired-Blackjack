@@ -61,7 +61,7 @@ public class MainActivity extends Activity implements
 
     /**
      * Upon notification of the onLongPress gesture, the application will create a new Intent
-     * to initiate the Play activity
+     * to initiate the PlaceWagerActivity activity
      * @param event
      */
     @Override
