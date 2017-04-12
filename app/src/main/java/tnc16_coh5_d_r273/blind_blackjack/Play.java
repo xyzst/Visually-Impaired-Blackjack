@@ -20,6 +20,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+/**
+ * Play class is where the game of blackjack takes place. The logic of blackjack and whether the
+ * player wins or loses against the dealer is handled here.
+ *
+ * As for gesture controls, the user is allowed to "Double Tap" which indicates the player
+ * wants to hit, and "Long Press" which indicates the player wants to stand.
+ *
+ * @author Darren Rambaud
+ */
 public class Play extends AppCompatActivity implements
         GestureDetector.OnGestureListener,
         GestureDetector.OnDoubleTapListener {
@@ -76,6 +85,7 @@ public class Play extends AppCompatActivity implements
          * activity_play.xml file. This could change if I could figure out how to dynamically
          * add ImageViews to the xml file
          */
+
         for (int i = 0; i < 10; ++i) {
             ImageView imgViewDealer = new ImageView(this);
             ImageView imgViewUser = new ImageView(this);
@@ -94,6 +104,13 @@ public class Play extends AppCompatActivity implements
         shuffleUpAndDeal();
     }
 
+    /**
+     * displayAppropriateUserImageViewCard will display the players cards on the screen
+     * depending on which Card objects they were dealt. The method will open up the appropriate
+     * resource file and update the associated ImageView
+     * @param file a String of the Card objects suit and value
+     * @param index an integer, the position of the Card object in the Hand
+     */
     private void displayAppropriateUserImageViewCard(String file, int index) {
         try {
             String filename = file.toLowerCase();
@@ -105,6 +122,12 @@ public class Play extends AppCompatActivity implements
         }
     }
 
+    /**
+     * displayAppropriateDealerImageViewCard is similar to displayAppropriateUserImageViewCard
+     * with the exception that it applies to the perspective of the dealer.
+     * @param file a String representation of the Card object suit and value
+     * @param index the position of the Card object
+     */
     private void displayAppropriateDealerImageViewCard(String file, int index) {
         try {
             String filename = file.toLowerCase();
@@ -116,6 +139,10 @@ public class Play extends AppCompatActivity implements
         }
     }
 
+    /**
+     * shuffleUpAndDeal() will shuffle the deck and deal Card objects to the player
+     * and dealer.
+     */
     public void shuffleUpAndDeal() {
         final SharedPreferences pref = getApplicationContext().getSharedPreferences(PREFS_NAME,
                 MODE_PRIVATE);
@@ -211,6 +238,12 @@ public class Play extends AppCompatActivity implements
         });
     }
 
+    /**
+     * userHasBusted() will upon being called (assumption is that the player's hand is > 21)
+     * will subtract the players bet from their current funds and switch the activity to the
+     * PlaceWagerActivity bet. If money - bet == 0, then the hasReachedZeroFunds flag is
+     * set to true
+     */
     private void userHasBusted() {
         final SharedPreferences pref = getApplicationContext().getSharedPreferences(PREFS_NAME,
                 MODE_PRIVATE);
@@ -233,6 +266,11 @@ public class Play extends AppCompatActivity implements
         }, SECS_DELAY);
     }
 
+    /**
+     * userHasPressedStandContinueToDealCardsToDealer will continue to deal cards to the
+     * dealer and update the dealers hand value appropriately. The dealer will stand
+     * or stop dealing on blackjack values greater than or equal to 17.
+     */
     private void userHasPressedStandContinueToDealCardsToDealer() {
         // TODO: grey out the hit and stand buttons ?? make them inaccessible or just undraw them?
         final SharedPreferences pref = getApplicationContext().getSharedPreferences(PREFS_NAME,
