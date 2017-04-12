@@ -52,11 +52,11 @@ public class MainActivity extends AppCompatActivity implements
     /**
      * Upon notification of the onFling gesture (flick up gesture), the application will create
      * a new Intent to initiate the Tutorial activity
-     * @param event1
-     * @param event2
-     * @param velocityX
-     * @param velocityY
-     * @return
+     * @param event1 not used
+     * @param event2 not used
+     * @param velocityX not used
+     * @param velocityY not used
+     * @return a boolean value
      */
     @Override
     public boolean onFling(MotionEvent event1, MotionEvent event2,
@@ -113,11 +113,21 @@ public class MainActivity extends AppCompatActivity implements
         return true;
     }
 
+    /**
+     * startTutorial method will create a new Intent and upon invocation will initiate the
+     * Tutorial Activity. This method is linked to the "loadTutorial" button in the xml file
+     * @param v
+     */
     public void startTutorial(View v) {
         Intent tutorial = new Intent(this, Tutorial.class);
         startActivity(tutorial);
     }
 
+    /**
+     * startBlackjack method will create a new Intent and upon invocation will initiate the
+     * PlaceWagerActivity. Method is linked to the "playBlackjack" button in the xml file
+     * @param v
+     */
     public void startBlackjack(View v) {
         Intent playBlackjack = new Intent(this, PlaceWagerActivity.class);
         startActivity(playBlackjack);
