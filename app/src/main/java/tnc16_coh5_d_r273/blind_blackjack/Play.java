@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,10 +20,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class Play extends AppCompatActivity {
+public class Play extends AppCompatActivity implements
+        GestureDetector.OnGestureListener,
+        GestureDetector.OnDoubleTapListener {
     public static final String PREFS_NAME = "SharedBlackjackVars";
     public static final String TAG = "PlayActivity";
 
+    private static final String DEBUG_TAG = "GESTURES";
     private final int SECS_DELAY = 5000;
     private int bet;
     private int dealerScore;
@@ -28,6 +34,8 @@ public class Play extends AppCompatActivity {
     private int dealerCardNumber;
     private int userCardNumber;
     private double money;
+
+    private GestureDetectorCompat mDetector;
 
     Deck deck;
     BlackjackHand userHand;
@@ -60,6 +68,9 @@ public class Play extends AppCompatActivity {
         money = bundle.getDouble("USER_MONEY");
         dealerCardNumber = 0;
         userCardNumber = 0;
+
+        mDetector = new GestureDetectorCompat(this, this);
+        mDetector.setOnDoubleTapListener(this);
 
         /* Begin initializing ImageViews, 10 refers to the number of ImgViews in the associated
          * activity_play.xml file. This could change if I could figure out how to dynamically
@@ -295,5 +306,85 @@ public class Play extends AppCompatActivity {
                 }
             }, SECS_DELAY);
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        this.mDetector.onTouchEvent(event);
+        // Be sure to call the superclass implementation
+        return super.onTouchEvent(event);
+    }
+
+    @Override
+    public boolean onDown(MotionEvent event) {
+        Log.d(DEBUG_TAG,"onDown: " + event.toString());
+        return true;
+    }
+
+    @Override
+    public boolean onFling(MotionEvent event1, MotionEvent event2,
+                           float velocityX, float velocityY) {
+        // not used
+        return true;
+    }
+
+    /**
+     * todo write this
+     * @param event
+     */
+    @Override
+    public void onLongPress(MotionEvent event) {
+        userHasPressedStandContinueToDealCardsToDealer();
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
+                            float distanceY) {
+        Log.d(DEBUG_TAG, "onScroll: " + e1.toString()+e2.toString());
+        return true;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent event) {
+        Log.d(DEBUG_TAG, "onShowPress: " + event.toString());
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent event) {
+        Log.d(DEBUG_TAG, "onSingleTapUp: " + event.toString());
+        return true;
+    }
+
+    /**
+     * todo: write doc
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onDoubleTap(MotionEvent event) {
+        userHand.addCard(deck.dealCard());
+        userScore = userHand.getBlackjackValue();
+        userScoreTextView.setText("You @ ".concat(Integer.toString(userScore)));
+        displayAppropriateUserImageViewCard(userHand.getCard(userCardNumber).toString()+".png",
+                userCardNumber++);
+        if ((userScore) > 21) {
+            userHasBusted();
+        }
+        else if (userScore == 21) { // No need to query user to hit, already at 21!
+            userHasPressedStandContinueToDealCardsToDealer();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onDoubleTapEvent(MotionEvent event) {
+        Log.d(DEBUG_TAG, "onDoubleTapEvent: " + event.toString());
+        return true;
+    }
+
+    @Override
+    public boolean onSingleTapConfirmed(MotionEvent event) {
+        Log.d(DEBUG_TAG, "onSingleTapConfirmed: " + event.toString());
+        return true;
     }
 }
