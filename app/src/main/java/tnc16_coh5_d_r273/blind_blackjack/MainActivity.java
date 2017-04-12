@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity implements
         GestureDetector.OnGestureListener,
-        GestureDetector.OnDoubleTapListener{
+        GestureDetector.OnDoubleTapListener {
 
     private static final String DEBUG_TAG = "GESTURES";
     private GestureDetectorCompat mDetector;
