@@ -1,17 +1,27 @@
 package tnc16_coh5_d_r273.blind_blackjack;
 
 /**
- * Created by Valar-Morghulis on 4/9/17.
+ * class BlackjackHand is a representation of an individuals hand (eg, dealer or user)
+ * and fundamentally is a subclass of class Hand.
+ *
+ * The author/source of this class is acknowledged with @author however the java
+ * documentation written herein is written by myself, Darren Rambaud (d_r273). Minor
+ * changes to the source code were made however were more for style as opposed to modifying
+ * the logic.
+ *
+ * @author http://math.hws.edu/eck/cs124/javanotes4/c5/ex-5-5-answer.html
  */
 
 public class BlackjackHand extends Hand {
+    /**
+     * getBlackjackValue returns the int value of the BlackjackHand object
+     * @return an int, representing the person's/object's hand value (max == 21)
+     */
     public int getBlackjackValue() {
-        // Returns the value of this hand for the
-        // game of Blackjack.
 
         int val;      // The value computed for the hand.
         boolean ace;  // This will be set to true if the
-        //   hand contains an ace.
+                      // hand contains an ace.
         int cards;    // Number of cards in the hand.
 
         val = 0;
@@ -30,7 +40,7 @@ public class BlackjackHand extends Hand {
             if (cardVal == 1) {
                 ace = true;     // There is at least one ace.
             }
-            val = val + cardVal;
+            val += cardVal;
         }
 
         // Now, val is the value of the hand, counting any ace as 1.
@@ -39,7 +49,7 @@ public class BlackjackHand extends Hand {
         // then do so by adding the extra 10 points to val.
 
         if ( ace  &&  val + 10 <= 21 )
-            val = val + 10;
+            val += 10;
 
         return val;
 
