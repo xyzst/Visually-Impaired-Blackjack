@@ -10,6 +10,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+/**
+ * MainActivity class refers to the Activity where the player is given the option to choose
+ * between loading the Tutorial Activity or Play Activity.
+ *
+ * Gestures are captured in this class, specifically the onFling and onLongPress gestures.
+ *
+ * @author Darren Rambaud
+ */
 public class MainActivity extends AppCompatActivity implements
         GestureDetector.OnGestureListener,
         GestureDetector.OnDoubleTapListener {
