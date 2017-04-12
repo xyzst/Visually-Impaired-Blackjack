@@ -13,6 +13,18 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+/**
+ * PlaceWagerActivity allows the user to place an appropriate bet/wager before proceeding
+ * to play Blackjack. The user is started out at 100 and if the user reaches 0, the funds
+ * will be replenished. A user may arrive at this activity either from the Play Activity or
+ * Main Activity.
+ *
+ * This activity captures all gestures however only utilizes onLongPress & onFling. The long
+ * press gesture will confirm the player's bet and the onFling gesture allows the user to
+ * incrementally increase or decrease the bet by flinging up or down, respectively.
+ *
+ * @author Darren Rambaud
+ */
 public class PlaceWagerActivity extends AppCompatActivity implements
         GestureDetector.OnGestureListener,
         GestureDetector.OnDoubleTapListener {
@@ -112,11 +124,11 @@ public class PlaceWagerActivity extends AppCompatActivity implements
      * Upon notification of the onFling gesture, if the fling is from bottom to top then
      * the bet is increased by increments of 25. If the fling is from top to bottom, then the bet
      * is decreased by 25. Sensitivity can be adjusted by modifying the constants.
-     * @param event1
-     * @param event2
-     * @param velocityX
-     * @param velocityY
-     * @return
+     * @param event1 a MotionEvent, the start of the onFling
+     * @param event2 a MotionEvent, the end of the onFling
+     * @param velocityX a float, refers to the speed of the fling event
+     * @param velocityY a MotionEvent, not used in this method
+     * @return a boolean
      */
     @Override
     public boolean onFling(MotionEvent event1, MotionEvent event2,
@@ -141,7 +153,7 @@ public class PlaceWagerActivity extends AppCompatActivity implements
     /**
      * Upon notification of the long press gesture, the user confirms the bet amount and initiates
      * the next Intent to the Play activity.
-     * @param event
+     * @param event a MotionEvent, not used
      */
     @Override
     public void onLongPress(MotionEvent event) {
