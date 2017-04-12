@@ -329,7 +329,7 @@ public class Play extends AppCompatActivity implements
     }
 
     /**
-     * todo write this
+     * Upon a long press, the user indicates he/she would like to "stand"
      * @param event
      */
     @Override
@@ -356,7 +356,8 @@ public class Play extends AppCompatActivity implements
     }
 
     /**
-     * todo: write doc
+     * Upon notification of a double tap gesture, it signals to the app that the player would like
+     * to hit
      * @param event
      * @return
      */
