@@ -1,11 +1,14 @@
 package tnc16_coh5_d_r273.blind_blackjack;
 
 /**
- * Created by Valar-Morghulis on 3/21/17.
- *
  * An object of class card represents one of the 52 cards in a
  * standard deck of playing cards.  Each card has a suit and
  * a value.
+ *
+ * The code written in this class is attributed by the @author however java documentation
+ * written herein is created by Darren Rambaud (d_r273)
+ *
+ * @author http://math.hws.edu/eck/cs124/javanotes4/c5/ex-5-5-answer.html
  */
 
 public class Card {
@@ -25,25 +28,40 @@ public class Card {
 
     private final int value;  // The value of this card, from 1 to 11.
 
+    /**
+     * This method is the constructor of the class and sets the Card object's suit and value.
+     *
+     * @param theValue is a value between 1 and 13
+     * @param theSuit is a value between 0 and 3
+     */
     public Card(int theValue, int theSuit) {
-        // Construct a card with the specified value and suit.
-        // Value must be between 1 and 13.  Suit must be between
-        // 0 and 3.  If the parameters are outside these ranges,
-        // the constructed card object will be invalid.
         value = theValue;
         suit = theSuit;
     }
 
+    /**
+     * getSuit(), as implied by the name is a getter for the Card object's suit value
+     * @return suit, an integer between 0 and 3
+     */
     public int getSuit() {
         // Return the int that codes for this card's suit.
         return suit;
     }
 
+    /**
+     * getValue() is a getter for the Card's value
+     * @return value, an integer between 1 and 13
+     */
     public int getValue() {
         // Return the int that codes for this card's value.
         return value;
     }
 
+    /**
+     * getSuitAsString() returns the Card object's suit (assuming a face card)
+     * as a String object
+     * @return a String object representing the cards suit
+     */
     public String getSuitAsString() {
         // Return a String representing the card's suit.
         // (If the card's suit is invalid, "??" is returned.)
@@ -56,32 +74,40 @@ public class Card {
         }
     }
 
+    /**
+     * getValueAsString() returns the Card object's value as a String (eg, 1 returns "Ace")
+     * @return a String object
+     */
     public String getValueAsString() {
         // Return a String representing the card's value.
         // If the card's value is invalid, "??" is returned.
         switch ( value ) {
-            case 1:   return "Ace";
-            case 2:   return "2";
-            case 3:   return "3";
-            case 4:   return "4";
-            case 5:   return "5";
-            case 6:   return "6";
-            case 7:   return "7";
-            case 8:   return "8";
-            case 9:   return "9";
-            case 10:  return "10";
-            case 11:  return "Jack";
-            case 12:  return "Queen";
-            case 13:  return "King";
+            case ACE:   return "Ace";
+            case 2:   return "Two";
+            case 3:   return "Three";
+            case 4:   return "Four";
+            case 5:   return "Five";
+            case 6:   return "Six";
+            case 7:   return "Seven";
+            case 8:   return "Eight";
+            case 9:   return "Nine";
+            case 10:  return "Ten";
+            case JACK:  return "Jack";
+            case QUEEN:  return "Queen";
+            case KING:  return "King";
             default:  return "??";
         }
     }
 
+    /**
+     * toString() returns the Card objects String representation (eg, Ace_of_Clubs). This
+     * method was rewritten to facilitate in finding the appropriate resource file to
+     * display for the Card object
+     * @return a String object
+     */
     public String toString() {
         // Return a String representation of this card, such as
         // "10 of Hearts" or "Queen of Spades".
-        return getValueAsString() + " of " + getSuitAsString();
+        return getValueAsString() + "_of_" + getSuitAsString();
     }
-
-
 } // end class Card

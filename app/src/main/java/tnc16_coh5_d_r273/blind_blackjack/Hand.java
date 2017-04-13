@@ -5,6 +5,11 @@ package tnc16_coh5_d_r273.blind_blackjack;
  *  cards in the hand can be specified in the constructor, but by default
  *  is 5.  A utility function is provided for computing the value of the
  *  hand in the game of Blackjack.
+ *
+ *  Source code written for this class acknowledged in the @author tag however Java
+ *  documentation is written by Darren Rambaud (d_r273)
+ *
+ *  @author http://math.hws.edu/eck/cs124/javanotes4/c5/ex-5-5-answer.html
  */
 
 import java.util.ArrayList;
@@ -13,16 +18,27 @@ public class Hand {
 
     private ArrayList<Card> hand;   // The cards in the hand.
 
+    /**
+     * Hand() is the constructor of the class and initializes the private declared ArrayList
+     */
     public Hand() {
         // Create a Hand object that is initially empty.
         hand = new ArrayList<>();
     }
 
+    /**
+     * clear() upon invocation will call the .clear() method and discard all Card objects
+     */
     public void clear() {
         // Discard all the cards from the hand.
         hand.clear();
     }
 
+    /**
+     * addCard() accepts a single Card object and will add the Card to the Hand object's
+     * ArrayList
+     * @param c a Card object
+     */
     public void addCard(Card c) {
         // Add the card c to the hand.  c should be non-null.  (If c is
         // null, nothing is added to the hand.)
@@ -30,11 +46,21 @@ public class Hand {
             hand.add(c);
     }
 
+    /**
+     * removeCard() will remove a specific Card object, assuming it exists
+     * @param c a Card object
+     */
     public void removeCard(Card c) {
         // If the specified card is in the hand, it is removed.
         hand.remove(c);
     }
 
+    /**
+     * removeCard() will remove a card based upon the position in the ArrayList.
+     * To ensure there are no out of bounds exceptions, the integer is bounds checked before
+     * attempting to access the array at that specified position
+     * @param position an integer
+     */
     public void removeCard(int position) {
         // If the specified position is a valid position in the hand,
         // then the card in that position is removed.
@@ -42,11 +68,20 @@ public class Hand {
             hand.remove(position);
     }
 
+    /**
+     * getCardCount() will return the number of Card objects in the current Hand object
+     * @return an integer
+     */
     public int getCardCount() {
         // Return the number of cards in the hand.
         return hand.size();
     }
 
+    /**
+     * getCard() returns a Card object at the specified position. Bounds checking occurs here
+      * @param position, an integer
+     * @return a Card object
+     */
     public Card getCard(int position) {
         // Get the card from the hand in given position, where positions
         // are numbered starting from 0.  If the specified position is
@@ -58,10 +93,11 @@ public class Hand {
             return null;
     }
 
+    /**
+     * sortBySuit will sort the Hand by grouping similar suits together and be sorted in
+     * descending order from highest to lowest (an ace is the lowest value)
+     */
     public void sortBySuit() {
-        // Sorts the cards in the hand so that cards of the same suit are
-        // grouped together, and within a suit the cards are sorted by value.
-        // Note that aces are considered to have the lowest value, 1.
         ArrayList<Card> newHand = new ArrayList<>();
         while (hand.size() > 0) {
             int pos = 0;  // Position of minimal card.
@@ -80,10 +116,11 @@ public class Hand {
         hand = newHand;
     }
 
+    /**
+     * sortByValue will sort the hand by value, then if there are collisions between the value
+     * then they are sorted by suit.
+     */
     public void sortByValue() {
-        // Sorts the cards in the hand so that cards of the same value are
-        // grouped together.  Cards with the same value are sorted by suit.
-        // Note that aces are considered to have the lowest value, 1.
         ArrayList<Card> newHand = new ArrayList<>();
         while (hand.size() > 0) {
             int pos = 0;  // Position of minimal card.
