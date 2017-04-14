@@ -35,6 +35,7 @@ public class PlaceWagerActivity extends AppCompatActivity implements
     private TextView textViewDisplayFunds;
     private Integer betAmount = 5;
     private double money;
+    private Audio feedback;
 
     private static final int SWIPE_MIN_DISTANCE = 80;
     private static final int SWIPE_THRESHOLD_VELOCITY = 50;
