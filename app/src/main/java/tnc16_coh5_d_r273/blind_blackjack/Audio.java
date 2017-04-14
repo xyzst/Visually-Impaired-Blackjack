@@ -2,19 +2,15 @@ package tnc16_coh5_d_r273.blind_blackjack;
 import android.media.MediaPlayer;
 import java.util.Random;
 import android.content.Context;
-
 import java.util.Random;
 
 /**
- * Audio class serves as an instantiable object that will play audio feedback based on function
- * input. This class can interpret score values and specific blackjack game events and output the
- * correct audio response.
- *
- * Gestures are captured in this class, specifically the onFling and onLongPress gestures.
+ * The Audio class serves as an instantiable object that can play audio feedback based on function
+ * input. This class can interpret score values, money amounts, specific blackjack game events, and
+ * output the correct speech interface.
  *
  * @author Colin Hughes
  */
-
 public class Audio {
 
     private Context context;
@@ -377,5 +373,45 @@ public class Audio {
 
         mp = MediaPlayer.create(context, R.raw.dollars);
         mp.start();
+    }
+
+    /**
+     * hearBet provides audio feedback to the betting process. Contains multiple respective sound
+     * effects for increasing and decreasing bets. Takes an input value to determine whether the
+     * user is swiping up or down to increase (up) or lower (down) their bet.
+     * @param upOrDown, swiping up to increase bet or down to lower? [upOrDown=1]->up 2->down
+     */
+    public void hearBet(int upOrDown){
+        MediaPlayer mp = new MediaPlayer();
+        mp = MediaPlayer.create(context, R.raw.youhave);
+
+        Random moneySound = new Random();
+        int randomMoneySound;
+
+        randomMoneySound = moneySound.nextInt(3) + 1;
+
+        switch (randomMoneySound) {
+            case 1:
+                if(upOrDown == 1)
+                    mp = MediaPlayer.create(context, R.raw.more1);
+                else
+                    mp = MediaPlayer.create(context, R.raw.less1);
+                mp.start();
+                break;
+            case 2:
+                if(upOrDown == 1)
+                    mp = MediaPlayer.create(context, R.raw.more2);
+                else
+                    mp = MediaPlayer.create(context, R.raw.less2);
+                mp.start();
+                break;
+            case 3:
+                if(upOrDown == 1)
+                    mp = MediaPlayer.create(context, R.raw.more3);
+                else
+                    mp = MediaPlayer.create(context, R.raw.less3);
+                mp.start();
+                break;
+        }
     }
 }
