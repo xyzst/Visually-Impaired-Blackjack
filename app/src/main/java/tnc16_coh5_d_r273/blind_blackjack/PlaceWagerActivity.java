@@ -49,7 +49,7 @@ public class PlaceWagerActivity extends AppCompatActivity implements
         SharedPreferences pref = getApplicationContext().getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor edit = pref.edit();
         Bundle bundle = getIntent().getExtras();
-
+//test
         mDetector = new GestureDetectorCompat(this, this);
         mDetector.setOnDoubleTapListener(this);
         feedback = new Audio(getApplicationContext());
