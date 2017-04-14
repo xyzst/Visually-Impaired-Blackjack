@@ -272,7 +272,8 @@ public class Play extends AppCompatActivity implements
      * or stop dealing on blackjack values greater than or equal to 17.
      */
     private void userHasPressedStandContinueToDealCardsToDealer() {
-        // TODO: grey out the hit and stand buttons ?? make them inaccessible or just undraw them?
+        buttonHit.setEnabled(false);
+        buttonStand.setEnabled(false);
         final SharedPreferences pref = getApplicationContext().getSharedPreferences(PREFS_NAME,
                 MODE_PRIVATE);
         final SharedPreferences.Editor edit = pref.edit();
