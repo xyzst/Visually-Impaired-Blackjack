@@ -40,6 +40,7 @@ public class PlaceWagerActivity extends AppCompatActivity implements
     private static final int SWIPE_THRESHOLD_VELOCITY = 50;
     private static final String DEBUG_TAG = "GESTURES";
     private GestureDetectorCompat mDetector;
+    private Audio feedback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,7 @@ public class PlaceWagerActivity extends AppCompatActivity implements
 
         mDetector = new GestureDetectorCompat(this, this);
         mDetector.setOnDoubleTapListener(this);
-
+        feedback = new Audio(getApplicationContext());
         try {
             if (pref.getBoolean("hasReachedZeroFunds", false)) {
                 money = 100;
@@ -72,6 +73,7 @@ public class PlaceWagerActivity extends AppCompatActivity implements
         textViewDisplayFunds = (TextView) findViewById(R.id.textViewAvailableFunds);
         textViewDisplayFunds.setText("AVAILABLE FUNDS: ".concat(Double.toString(money)));
         buttonBetAmount.setText("CONFIRM ($5)");
+        feedback.hearMoney(money);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             String disp;
