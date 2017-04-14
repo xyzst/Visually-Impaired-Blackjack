@@ -1,7 +1,12 @@
 package tnc16_coh5_d_r273.blind_blackjack;
+import android.annotation.TargetApi;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import java.util.Random;
 import android.content.Context;
+import android.media.SoundPool;
+import android.os.Build;
 
 /**
  * The Audio class serves as an instantiable object that can play audio feedback based on function

@@ -81,7 +81,7 @@ public class Play extends AppCompatActivity implements
 
         mDetector = new GestureDetectorCompat(this, this);
         mDetector.setOnDoubleTapListener(this);
-        feedback = new Audio(this);
+        feedback = new Audio(getApplicationContext());
 
         /* Begin initializing ImageViews, 10 refers to the number of ImgViews in the associated
          * activity_play.xml file. This could change if I could figure out how to dynamically
