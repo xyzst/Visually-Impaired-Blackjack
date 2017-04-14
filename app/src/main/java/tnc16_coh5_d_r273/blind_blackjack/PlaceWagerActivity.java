@@ -73,7 +73,13 @@ public class PlaceWagerActivity extends AppCompatActivity implements
         textViewDisplayFunds = (TextView) findViewById(R.id.textViewAvailableFunds);
         textViewDisplayFunds.setText("AVAILABLE FUNDS: ".concat(Double.toString(money)));
         buttonBetAmount.setText("CONFIRM ($5)");
-        feedback.hearMoney(money);
+        try {
+            feedback.hearMoney(money);
+        }
+        catch (Exception x) {
+            // do nothing, continue
+            // this needs to be replaced
+        }
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             String disp;
@@ -140,12 +146,14 @@ public class PlaceWagerActivity extends AppCompatActivity implements
             if ((betAmount += 25) > money) {
                 betAmount = (int) money;
             }
+            feedback.hearBet(1);
         } // Fling from bottom to top
         else if (event2.getY() - event1.getY() > SWIPE_MIN_DISTANCE &&
                 Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
             if ((betAmount -= 25) < 0) {
                 betAmount = 5;
             }
+            feedback.hearBet(0);
         } // Fling from top to bottom
 
         buttonBetAmount.setText("CONFIRM ($"+betAmount+")");

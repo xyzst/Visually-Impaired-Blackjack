@@ -18,9 +18,10 @@ import android.os.Build;
 public class Audio {
 
     private Context context;
+    private MediaPlayer mp;
 
-    public Audio(Context c) {
-        context = c;
+    public Audio(Context context) {
+        this.context = context;
     }
 
     /**
@@ -38,7 +39,7 @@ public class Audio {
     public void hearPoints(int userPoints, int dealerPoints, int dealTypeID) {
         int points = 0;
 
-        MediaPlayer mp = new MediaPlayer();
+        //MediaPlayer mp = new MediaPlayer();
 
         Random cardSound = new Random();
         int randomDrawSound;
@@ -96,7 +97,7 @@ public class Audio {
      * @param soundValue, an int value that will be turned into speech output
      */
     public void soundInterpreter(int soundValue) {
-        MediaPlayer mp = new MediaPlayer();
+        //MediaPlayer mp = new MediaPlayer();
 
         switch (soundValue) {
             case 1:
@@ -292,7 +293,7 @@ public class Audio {
      * @param resultID, corresponds to a victory/lost condition in the game
      */
     public void hearResult(int resultID) {
-        MediaPlayer mp = new MediaPlayer();
+        //MediaPlayer mp = new MediaPlayer();
         mp = MediaPlayer.create(context, R.raw.silence);
 
         switch (resultID) {
@@ -335,7 +336,7 @@ public class Audio {
      * @param money, the amount of money that the user has. To be read aloud as speech output.
      */
     public void hearMoney(double money) {
-        MediaPlayer mp = new MediaPlayer();
+        //MediaPlayer mp = new MediaPlayer();
         mp = MediaPlayer.create(context, R.raw.youhave);
         mp.start();
         while (mp.isPlaying()) {/** wait */}
@@ -386,7 +387,7 @@ public class Audio {
      * @param upOrDown, swiping up to increase bet or down to lower? [upOrDown=1]->up 2->down
      */
     public void hearBet(int upOrDown){
-        MediaPlayer mp = new MediaPlayer();
+        //MediaPlayer mp = new MediaPlayer();
         mp = MediaPlayer.create(context, R.raw.youhave);
 
         Random moneySound = new Random();
