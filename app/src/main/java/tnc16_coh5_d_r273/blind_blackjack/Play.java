@@ -81,6 +81,7 @@ public class Play extends AppCompatActivity implements
 
         mDetector = new GestureDetectorCompat(this, this);
         mDetector.setOnDoubleTapListener(this);
+        feedback = new Audio(this);
 
         /* Begin initializing ImageViews, 10 refers to the number of ImgViews in the associated
          * activity_play.xml file. This could change if I could figure out how to dynamically
@@ -165,11 +166,18 @@ public class Play extends AppCompatActivity implements
 
         dealerScore = dealerHand.getBlackjackValue();
         userScore = userHand.getBlackjackValue();
+        try {
+            feedback.hearPoints(userScore, dealerHand.getCard(1).getValue(), 0);
+        }
+        catch (Exception e) {
+            // bad bad bad
+            // will need to resolve issue with SoundInterpreter
+        }
         dealerScoreTextView.setText("Shown: ".concat(dealerHand.getCard(1).getValueAsString()));
         userScoreTextView.setText("You @ ".concat(Integer.toString(userScore)));
 
         if (dealerScore == 21 && userScore == 21) {
-            //TODO: implement audio feedback
+            feedback.hearResult(1);
             Toast.makeText(getApplicationContext(), "Dealer & User have Blackjack! Result = push",
                     Toast.LENGTH_LONG).show();
             new Handler().postDelayed(new Runnable() {
@@ -182,7 +190,7 @@ public class Play extends AppCompatActivity implements
             }, SECS_DELAY);
         }
         else if (dealerScore != 21 && userScore == 21) {
-            //TODO: implement audio feedback
+            feedback.hearResult(2);
             Toast.makeText(getApplicationContext(), "User has blackjack! Result = win",
                     Toast.LENGTH_SHORT).show();
             new Handler().postDelayed(new Runnable() {
@@ -195,7 +203,7 @@ public class Play extends AppCompatActivity implements
             }, SECS_DELAY);
         }
         else if (dealerScore == 21) {
-            //TODO: implement audio feedback
+            feedback.hearResult(3);
             Toast.makeText(getApplicationContext(), "Dealer has blackjack! Result = loss",
                     Toast.LENGTH_SHORT).show();
             new Handler().postDelayed(new Runnable() {
@@ -219,6 +227,12 @@ public class Play extends AppCompatActivity implements
             public void onClick(View view) {
                 userHand.addCard(deck.dealCard());
                 userScore = userHand.getBlackjackValue();
+                try {
+                    feedback.hearPoints(userScore, dealerScore, 1);
+                }
+                catch (Exception e) {
+                    // do nothing
+                }
                 userScoreTextView.setText("You @ ".concat(Integer.toString(userScore)));
                 displayAppropriateUserImageViewCard(userHand.getCard(userCardNumber).toString()+".png",
                         userCardNumber++);
@@ -249,7 +263,7 @@ public class Play extends AppCompatActivity implements
         final SharedPreferences pref = getApplicationContext().getSharedPreferences(PREFS_NAME,
                 MODE_PRIVATE);
         final SharedPreferences.Editor edit = pref.edit();
-        //TODO: implement audio feedback
+        feedback.hearResult(4);
         Toast.makeText(getApplicationContext(), "User has busted! Result = loss",
                 Toast.LENGTH_SHORT).show();
         new Handler().postDelayed(new Runnable() {
@@ -285,12 +299,18 @@ public class Play extends AppCompatActivity implements
             Card newCard = deck.dealCard();
             dealerHand.addCard(newCard);
             dealerScore = dealerHand.getBlackjackValue();
+            try {
+                feedback.hearPoints(userScore, dealerScore, 2);
+            }
+            catch (Exception e) {
+                // do nothing
+            }
             dealerScoreTextView.setText("Dealer @ ".concat(Integer.toString(dealerScore)));
             displayAppropriateDealerImageViewCard(dealerHand.getCard(dealerCardNumber).toString()+".png",
                             dealerCardNumber++); // FIXME: May access out of bounds if number of cards exceeds 10, fix with dynamic ImageView on XML, use RecyclerView??
 
             if (dealerScore > 21) {
-                // TODO: implement audio feedback
+                feedback.hearResult(5);
                 Toast.makeText(getApplicationContext(), "Dealer has busted! Result = win",
                         Toast.LENGTH_SHORT).show();
                 new Handler().postDelayed(new Runnable() {
@@ -298,6 +318,7 @@ public class Play extends AppCompatActivity implements
                     public void run() {
                         Intent win = new Intent(Play.this, PlaceWagerActivity.class);
                         win.putExtra("RESULT", money + bet);
+                        feedback.hearResult(8);
                         startActivity(win);
                     }
                 }, SECS_DELAY);
@@ -305,7 +326,7 @@ public class Play extends AppCompatActivity implements
         }
 
         if (dealerScore == userScore) {
-            // TODO: implement sound feedback
+            feedback.hearResult(6);
             Toast.makeText(getApplicationContext(), "Dealer hand == User hand! Result == push",
                     Toast.LENGTH_SHORT).show();
              new Handler().postDelayed(new Runnable() {
@@ -317,7 +338,7 @@ public class Play extends AppCompatActivity implements
                 }
             }, SECS_DELAY);
         } else if ((dealerScore <= 21) && (dealerScore > userScore)) {
-            // TODO: implement sound feedback
+            feedback.hearResult(7);
             Toast.makeText(getApplicationContext(), "Dealer hand > User hand! Result == loss",
                     Toast.LENGTH_SHORT).show();
             new Handler().postDelayed(new Runnable() {
@@ -334,7 +355,7 @@ public class Play extends AppCompatActivity implements
                 }
             }, SECS_DELAY);
         } else {
-            // TODO implement sound feedback
+            feedback.hearResult(8);
             Toast.makeText(getApplicationContext(), "User hand > dealer hand! Result == win",
                     Toast.LENGTH_SHORT).show();
             new Handler().postDelayed(new Runnable() {
@@ -405,6 +426,7 @@ public class Play extends AppCompatActivity implements
     public boolean onDoubleTap(MotionEvent event) {
         userHand.addCard(deck.dealCard());
         userScore = userHand.getBlackjackValue();
+        feedback.hearPoints(userScore, dealerScore, 1);
         userScoreTextView.setText("You @ ".concat(Integer.toString(userScore)));
         displayAppropriateUserImageViewCard(userHand.getCard(userCardNumber).toString()+".png",
                 userCardNumber++);

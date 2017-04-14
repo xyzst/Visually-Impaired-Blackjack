@@ -39,7 +39,7 @@ public class Audio {
     public void hearPoints(int userPoints, int dealerPoints, int dealTypeID) {
         int points = 0;
 
-        //MediaPlayer mp = new MediaPlayer();
+        MediaPlayer mp = new MediaPlayer();
 
         Random cardSound = new Random();
         int randomDrawSound;
