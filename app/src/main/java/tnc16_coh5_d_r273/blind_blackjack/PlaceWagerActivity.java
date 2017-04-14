@@ -40,7 +40,6 @@ public class PlaceWagerActivity extends AppCompatActivity implements
     private static final int SWIPE_THRESHOLD_VELOCITY = 50;
     private static final String DEBUG_TAG = "GESTURES";
     private GestureDetectorCompat mDetector;
-    private Audio feedback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +52,7 @@ public class PlaceWagerActivity extends AppCompatActivity implements
         mDetector = new GestureDetectorCompat(this, this);
         mDetector.setOnDoubleTapListener(this);
         feedback = new Audio(this);
+      
         try {
             if (pref.getBoolean("hasReachedZeroFunds", false)) {
                 money = 100;
@@ -80,7 +80,6 @@ public class PlaceWagerActivity extends AppCompatActivity implements
             // do nothing, continue
             // this needs to be replaced
         }
-
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             String disp;
             Integer prog = 5; // set minimum bet value = 5
